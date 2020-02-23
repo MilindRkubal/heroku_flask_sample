@@ -1,0 +1,3 @@
+wordnet
+sentiwordnet
+vader_lexicon
