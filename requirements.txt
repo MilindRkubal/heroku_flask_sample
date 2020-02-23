@@ -1,11 +1,11 @@
-Flask==0.10.1
-gunicorn==19.3.0
+Flask==1.0.0
+gunicorn==19.5.0
 itsdangerous==0.24
-Jinja2==2.7.3
+Jinja2==2.10.1
 MarkupSafe==0.23
 Werkzeug==0.10.4
 text-normalizer
-nltk
+nltk==3.4.5
 pandas
 textblob
 spacy
@@ -18,7 +18,7 @@ nltk==3.2.4
 numpy==1.13.1
 protobuf==3.3.0
 six==1.10.0
-tensorflow==1.2.1
+tensorflow==1.15.2
 textblob==0.12.0
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 allennlp
