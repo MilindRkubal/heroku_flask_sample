@@ -72,6 +72,13 @@ def sentiment_analysis(ip):
     final_sentiment = json.dumps(temp)
     return final_sentiment
 
+@app.route('/named_entity_recognition/')
+def extract_NER():
+    sentence = request.args.get('sentence')
+    print('Input Sentence: ', sentence)
+    ner = extract_named_entities(sentence)
+    return ner
+
 @app.route('/phrases_keyword_extraction/')
 def extract_keywords_and_phrases():
     sentence = request.args.get('sentence')
