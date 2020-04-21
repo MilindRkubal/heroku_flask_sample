@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from textblob import TextBlob
 import re
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 app = Flask(__name__)
 
 @app.route('/demo_test/')
