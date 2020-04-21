@@ -3,6 +3,7 @@ from flask import request
 from textblob import TextBlob
 from keyword_extraction import extract_phrases_keywords
 import spacy
+nlp = spacy.load("en_core_web_sm")
 
 print('before error')
 import json
