@@ -1,6 +1,11 @@
 from flask import Flask
 from flask import request
 from textblob import TextBlob
+import spacy
+
+import json
+import os
+nlp = spacy.load("en_core_web_sm")
 import re
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 app = Flask(__name__)
