@@ -4,8 +4,13 @@ from textblob import TextBlob
 app = Flask(__name__)
 
 @app.route('/demo_test/')
-def extract_sentiment():
+def demo_test():
     return "Working"
+
+
+@app.route('/')
+def home():
+    return "Home Page Working"
 
 def get_positive_negative_words(ip):
     ip = re.sub(r'[^\w\s]', '', ip)
