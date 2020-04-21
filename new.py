@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import request
 from textblob import TextBlob
-
+from keyword_extraction import extract_phrases_keywords
 
 import json
 import os
@@ -71,6 +71,13 @@ def sentiment_analysis(ip):
 
     final_sentiment = json.dumps(temp)
     return final_sentiment
+
+@app.route('/phrases_keyword_extraction/')
+def extract_keywords_and_phrases():
+    sentence = request.args.get('sentence')
+    print('Input Sentence: ', sentence)
+    phrases_keywords = extract_phrases_keywords(sentence)
+    return phrases_keywords
 
 @app.route('/sentiment_analysis/')
 def extract_sentiment():
