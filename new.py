@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from textblob import TextBlob
+import re
 app = Flask(__name__)
 
 @app.route('/demo_test/')
