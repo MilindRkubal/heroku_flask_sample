@@ -3,7 +3,7 @@ from flask import request
 from textblob import TextBlob
 from keyword_extraction import extract_phrases_keywords
 import spacy
-from Use_NN import use_neural_network
+
 print('before error')
 import json
 import os
