@@ -3,8 +3,7 @@ from flask import request
 from textblob import TextBlob
 from keyword_extraction import extract_phrases_keywords
 import spacy
-from allennlp.predictors.predictor import Predictor
-predictor = Predictor.from_path("https://s3-us-west-2.amazonaws.com/allennlp/models/bidaf-model-2017.09.15-charpad.tar.gz")
+
 print('before error')
 import json
 import os
@@ -128,10 +127,4 @@ def extract_sentiment():
     sentiment_result = sentiment_analysis(sentence)
     return sentiment_result
 
-@app.route('/question_answer/')
-def extract_question_answer():
-    sentence = request.args.get('sentence')
-    question=request.args.get('question')
-    print('Input Sentence: ', sentence)
-    sarcasm = qna(sentence,question)
-    return sarcasm
+
