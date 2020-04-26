@@ -16,3 +16,4 @@ protobuf==3.3.0
 six==1.10.0
 textblob==0.12.0
 Werkzeug==0.15.3
+allennlp
