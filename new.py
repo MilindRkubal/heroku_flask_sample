@@ -234,7 +234,7 @@ def extract_sentiment():
 def racist_analysis():
     print("in racist")
     sentence = request.args.get('sentence')
-    print(semtence,"sentence given")
+    print(sentence,"sentence given")
     answer = clicked(sentence)
     return answer
 
