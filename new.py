@@ -8,6 +8,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
+from nltk.stem.porter import PorterStemmer
+import pickle
 
 print('before error')
 import json
@@ -120,6 +122,55 @@ def clicked(sentence):
 
     final_racist_sentiment = json.dumps(temp)
     return final_racist_sentiment
+
+
+
+def sarcasm():
+    data = pd.read_json(r'Sarcasm_Headlines_Dataset.json', lines = True)
+
+    data['headline'] = data['headline'].apply(lambda s : re.sub('[^a-zA-Z]', ' ', s))
+
+    labels = data['is_sarcastic']
+
+    ps = PorterStemmer()
+    data['headline'] = data['headline'].apply(lambda x: x.split())
+    data['headline'] = data['headline'].apply(lambda x : ' '.join([ps.stem(word) for word in x]))
+
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    tv = TfidfVectorizer(max_df=0.90, min_df=2, max_features=1000, stop_words='english')
+    features = tv.fit_transform(data['headline'])
+
+    import csv
+    with open(r'C:\Users\Divesh - Hemant Sir\Documents\Abusive Comments\astral_submission1.csv', 'w', newline='') as f:
+        thewriter = csv.writer(f)
+        thewriter.writerow(['id', 'headline'])
+        thewriter.writerow([1, "top snake handler leaves sinking huckabee campaign"])
+
+    sample = pd.read_csv(r"C:\Users\Divesh - Hemant Sir\Documents\Abusive Comments\astral_submission1.csv", index_col=0)
+    sample['headline'] = sample['headline'].apply(lambda s : re.sub('[^a-zA-Z]', ' ', s))
+
+
+    ps = PorterStemmer()
+    sample['headline'] = sample['headline'].apply(lambda x: x.split())
+    sample['headline'] = sample['headline'].apply(lambda x : ' '.join([ps.stem(word) for word in x]))
+
+    X_test = tv.transform(sample['headline'])
+    SVCmodel = pickle.load(open('SVC.sav', 'rb'))
+
+    model_predictions = SVCmodel.predict(X_test)
+    if model_predictions == 0:
+        return "Not sarcastic"
+
+    else:
+        return "Sarcastic"
+    
+    temp = {'sarcasm':my_ans}
+
+   
+
+    final_sarcasm = json.dumps(temp)
+    return final_sarcasm
+
 
 @app.route('/')
 def home():
@@ -237,5 +288,13 @@ def racist_analysis():
     sentence = request.args.get('sentence')
     print(sentence,"sentence given")
     answer = clicked(sentence)
+    return answer
+
+@app.route('/sarcasm_analysis/')
+def sarcasm_analysis():
+    print("in sarcasm")
+    sentence = request.args.get('sentence')
+    print(sentence,"sentence given")
+    answer = sarcasm(sentence)
     return answer
 
