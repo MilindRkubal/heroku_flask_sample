@@ -133,8 +133,8 @@ def racist_analysis():
     answer = clicked(sentence)
     return answer
 def clicked(sentence):
-    train = pd.read_csv(r"C:\Users\Divesh - Hemant Sir\Documents\Abusive Comments\train_tweets.csv", encoding='latin-1')
-    test = pd.read_csv(r"C:\Users\Divesh - Hemant Sir\Documents\Abusive Comments\test_tweets.csv", encoding='latin-1')
+    train = pd.read_csv(r"train_tweets.csv", encoding='latin-1')
+    test = pd.read_csv(r"test_tweets.csv", encoding='latin-1')
 
     df = train.append(test, ignore_index=True)
 
@@ -178,12 +178,12 @@ def clicked(sentence):
     xtrain_tfidf = train_tfidf[ytrain.index]
     xvalid_tfidf = train_tfidf[yvalid.index]
 
-    with open(r'C:\Users\Divesh - Hemant Sir\Documents\Abusive Comments\astral_submission.csv', 'w', newline='') as f:
+    with open(r'astral_submission.csv', 'w', newline='') as f:
         thewriter = csv.writer(f)
         thewriter.writerow(['id','tweet'])
         thewriter.writerow([1,sentence])
 
-    sample = pd.read_csv(r"C:\Users\Divesh - Hemant Sir\Documents\Abusive Comments\astral_submission.csv", index_col=0)
+    sample = pd.read_csv(r"astral_submission.csv", index_col=0)
 
 
     sample['tweets'] = sample['tweet'].apply(lambda x: re.sub("@[\w]*", '', x))
