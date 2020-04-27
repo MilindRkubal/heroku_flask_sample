@@ -12,6 +12,9 @@ from nltk.stem.porter import PorterStemmer
 import pickle
 
 print('before error')
+nlp = spacy.load("en_core_web_sm")
+print('after error')
+
 import json
 import os
 
