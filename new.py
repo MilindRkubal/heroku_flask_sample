@@ -125,7 +125,8 @@ def clicked(sentence):
 
 
 
-def sarcasm():
+def sarcasm(sentence):
+    print("sentence is",sentence)
     data = pd.read_json(r'Sarcasm_Headlines_Dataset.json', lines = True)
 
     data['headline'] = data['headline'].apply(lambda s : re.sub('[^a-zA-Z]', ' ', s))
