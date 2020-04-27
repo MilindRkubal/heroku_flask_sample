@@ -5,6 +5,7 @@ Jinja2==2.10.1
 MarkupSafe==0.23
 text-normalizer
 nltk==3.4.5
+pickle
 pandas
 spacy
 bleach==3.1.4
