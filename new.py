@@ -109,10 +109,10 @@ def clicked(sentence):
     b =lreg.predict(X_test)
     if b == 0 :
         print("Non-Racist Comment")
-        my_ans= "Non-Racist Comment"
+        my_ans = "Non-Racist Comment"
     else :
         print("Racist Comment")
-        my_ans= "Racist Comment"
+        my_ans = "Racist Comment"
         
         
         
@@ -141,12 +141,12 @@ def sarcasm():
     features = tv.fit_transform(data['headline'])
 
     import csv
-    with open(r'C:\Users\Divesh - Hemant Sir\Documents\Abusive Comments\astral_submission1.csv', 'w', newline='') as f:
+    with open(r'astral_submission1.csv', 'w', newline='') as f:
         thewriter = csv.writer(f)
         thewriter.writerow(['id', 'headline'])
         thewriter.writerow([1, "top snake handler leaves sinking huckabee campaign"])
 
-    sample = pd.read_csv(r"C:\Users\Divesh - Hemant Sir\Documents\Abusive Comments\astral_submission1.csv", index_col=0)
+    sample = pd.read_csv(r"astral_submission1.csv", index_col=0)
     sample['headline'] = sample['headline'].apply(lambda s : re.sub('[^a-zA-Z]', ' ', s))
 
 
@@ -159,10 +159,10 @@ def sarcasm():
 
     model_predictions = SVCmodel.predict(X_test)
     if model_predictions == 0:
-        return "Not sarcastic"
+        my_ans = "Not sarcastic"
 
     else:
-        return "Sarcastic"
+        my_ans = "Sarcastic"
     
     temp = {'sarcasm':my_ans}
 
