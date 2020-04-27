@@ -7,7 +7,7 @@ text-normalizer
 nltk==3.4.5
 pandas
 spacy==2.2.4
-en-core-web-sm==2.0.0
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.0.0.tar.gz --no-deps
 bleach==3.1.4
 backports.weakref==1.0rc1
 html5lib==0.9999999
