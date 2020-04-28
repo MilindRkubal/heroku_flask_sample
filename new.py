@@ -96,6 +96,40 @@ def clicked(sentence):
     final_racist_sentiment = json.dumps(temp)
     return final_racist_sentiment
 
+def emotion(sentence):
+    tweets = pd.DataFrame([sentence])
+
+    # Doing some preprocessing on these tweets as done before
+    tweets[0] = tweets[0].str.replace('[^\w\s]',' ')
+    from nltk.corpus import stopwords
+    stop = stopwords.words('english')
+    tweets[0] = tweets[0].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
+    from textblob import Word
+    tweets[0] = tweets[0].apply(lambda x: " ".join([Word(word).lemmatize() for word in x.split()]))
+    import pickle
+
+    pickle_in = open("count_vec.pkl","rb")
+    count_vect = pickle.load(pickle_in)
+    tweet_count = count_vect.transform(tweets[0])
+
+
+    # load the model from disk
+    loaded_model = pickle.load(open('lsvm_model.pkl', 'rb'))
+    result = loaded_model.predict(tweet_count)
+    
+    if result ==0:
+        my_ans = "Happy Comment"
+        
+    else:
+        my_ans = "Sad Comment"
+        
+    temp = {'emotion':my_ans}
+
+   
+
+    final_emotion = json.dumps(temp)
+    return final_emotion
+
 def get_key(val): 
   example_dict = {'AddToPlaylist': 0, 'BookRestaurant': 1, 'GetWeather': 2, 'RateBook': 3, 'SearchCreativeWork': 4, 'SearchScreeningEvent': 5}
   for key, value in example_dict.items():
