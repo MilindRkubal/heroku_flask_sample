@@ -248,7 +248,6 @@ def emotion(sentence):
 
         #Lemmatisation
         data['content'] = data['content'].apply(lambda x: " ".join([Word(word).lemmatize() for word in x.split()]))
-        print(data['content'],"Hello")
         #Correcting Letter Repetitions
 
         def de_repeat(text):
@@ -287,6 +286,7 @@ def emotion(sentence):
         lsvm.fit(X_train_count, y_train)
 
         tweets = pd.DataFrame([sentence])
+        print(tweets)
 
         # Doing some preprocessing on these tweets as done before
         tweets[0] = tweets[0].str.replace('[^\w\s]',' ')
@@ -298,6 +298,7 @@ def emotion(sentence):
         tweet_count = count_vect.transform(tweets[0])
 
         tweet_pred = lsvm.predict(tweet_count)
+        print(tweet_pred,"prediction")
         if tweet_pred ==0:
             my_ans = "Happy Comment"
             
