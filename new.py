@@ -218,7 +218,7 @@ def sarcasm(sentence):
     return final_sarcasm
 
 def emotion(sentence):
-    
+        from textblob import Word
         data = pd.read_csv('text_emotion.csv')
 
         data = data.drop('author', axis=1)
