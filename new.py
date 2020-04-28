@@ -16,7 +16,6 @@ from sklearn.linear_model import SGDClassifier
 import pandas as pd
 from nltk.stem.porter import PorterStemmer
 import pickle
-nltk.download('stopwords')
 
 # from keras.models import load_model
 # MAX_SEQUENCE_LENGTH = 50 # Maximum number of words in a sentence
