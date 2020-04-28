@@ -155,6 +155,9 @@ def intent(text):
   prediction = model_for_intent.predict(data)
   test_predictions = prediction.argmax(axis=-1)
   answer = get_key(test_predictions)
+  res = {'answer':answer}
+  res = json.dumps(res)
+  return res
     
 
 
