@@ -45,75 +45,25 @@ def demo_test():
 # model_for_intent = load_model('model.h5')
 
 def clicked(sentence):
-    print("MY SENtence FOR ", sentence)
-    train = pd.read_csv(r"train_tweets.csv", encoding='latin-1')
-    test = pd.read_csv(r"test_tweets.csv", encoding='latin-1')
+    
+    sample = pd.DataFrame([sentence])
 
-    df = train.append(test, ignore_index=True)
 
-    df['tweets'] = df['tweet'].apply(lambda x: re.sub("@[\w]*", '', x))
-
-    df['tweets'] = df['tweets'].str.replace("[^a-zA-Z#]", " ")
+    sample[0] = sample[0].apply(lambda x: re.sub("@[\w]*", '', x))
+    sample[0] = sample[0].str.replace("[^a-zA-Z#]", " ")
     # print(df['tweets'].head(10))
 
-    df['tweets'] = df['tweets'].apply(lambda x: ' '.join([w for w in x.split() if len(w) > 2]))
+    sample[0] = sample[0].apply(lambda x: ' '.join([w for w in x.split() if len(w) > 2]))
     # print(df['tweets'].head())
 
-    tokenized_tweet = df['tweets'].apply(lambda x: x.split())
+    tokenized_tweet = sample[0].apply(lambda x: x.split())
     # tokenized_tweet.head()
 
     from nltk.stem import WordNetLemmatizer
     stemmer = WordNetLemmatizer()
 
     tokenized_tweet = tokenized_tweet.apply(lambda x: [stemmer.lemmatize(i) for i in x])
-    # print(tokenized_tweet.head())
-
-    for i in range(len(tokenized_tweet)):
-        tokenized_tweet[i] = ' '.join(tokenized_tweet[i])
-
-    df['tweets'] = tokenized_tweet
-
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    tfidf_vectorizer = TfidfVectorizer(max_df=0.90, min_df=2, max_features=1000, stop_words='english')
-    # TF-IDF feature matrix
-    tfidf = tfidf_vectorizer.fit_transform(df['tweets'])
-
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.model_selection import train_test_split
-    from sklearn.metrics import f1_score
-
-    from sklearn.naive_bayes import GaussianNB
-    train_tfidf = tfidf[:31962, :]
-    test_tfidf = tfidf[31962:, :]
-
-    xtrain_bow, xvalid_bow, ytrain, yvalid = train_test_split(train_tfidf, train['label'], random_state=42,
-                                                              test_size=0.3)
-    xtrain_tfidf = train_tfidf[ytrain.index]
-    xvalid_tfidf = train_tfidf[yvalid.index]
-
-    with open(r'astral_submission.csv', 'w', newline='') as f:
-        thewriter = csv.writer(f)
-        thewriter.writerow(['id','tweet'])
-        thewriter.writerow([1,sentence])
-
-    sample = pd.read_csv(r"astral_submission.csv", index_col=0)
-
-
-    sample['tweets'] = sample['tweet'].apply(lambda x: re.sub("@[\w]*", '', x))
-    sample['tweets'] = sample['tweets'].str.replace("[^a-zA-Z#]", " ")
-    # print(df['tweets'].head(10))
-
-    sample['tweets'] = sample['tweets'].apply(lambda x: ' '.join([w for w in x.split() if len(w) > 2]))
-    # print(df['tweets'].head())
-
-    tokenized_tweet = sample['tweets'].apply(lambda x: x.split())
-    # tokenized_tweet.head()
-
-    from nltk.stem import WordNetLemmatizer
-    stemmer = WordNetLemmatizer()
-
-    tokenized_tweet = tokenized_tweet.apply(lambda x: [stemmer.lemmatize(i) for i in x])
-    sample['tweets'] = tokenized_tweet
+    sample[0] = tokenized_tweet
 
 
     for i in tokenized_tweet:
@@ -121,19 +71,20 @@ def clicked(sentence):
 
 
 
-    sample['tweets'] = tokenized_tweet
+    sample[0] = tokenized_tweet
 
-    lreg= LogisticRegression()
-    lreg.fit(xtrain_tfidf, ytrain)
+    import pickle
 
-    X_test = tfidf_vectorizer.transform(sample['tweets'])
+    pickle_in = open("tfidf_vec2.pkl", "rb")
+    tfidf_vec = pickle.load(pickle_in)
+    X_test = tfidf_vec.transform(sample[0])
 
-    b =lreg.predict(X_test)
-    if b == 0 :
-        print("Non-Racist Comment")
+    loaded_model = pickle.load(open('racist.pkl', 'rb'))
+
+    result = loaded_model.predict(X_test)
+    if result == 0 :
         my_ans = "Non-Racist Comment"
     else :
-        print("Racist Comment")
         my_ans = "Racist Comment"
         
         
