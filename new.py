@@ -18,7 +18,7 @@ VALIDATION_SPLIT = 0.10
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 print('before error')
-nlp = spacy.load("en_core_web_sm")
+
 print('after error')
 
 import json
