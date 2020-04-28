@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import request
-from textblob import TextBlob
+# from textblob import TextBlob
 from keyword_extraction import extract_phrases_keywords
 import csv
 from sklearn.linear_model import LogisticRegression
