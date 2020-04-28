@@ -1,3 +1,4 @@
 wordnet
 sentiwordnet
 vader_lexicon
+stopwords
