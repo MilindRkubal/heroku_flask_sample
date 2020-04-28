@@ -32,7 +32,7 @@ def demo_test():
     return "Working"
 
 
-model_for_intent = load_model('model.h5')
+# model_for_intent = load_model('model.h5')
 
 def clicked(sentence):
     print("MY SENtence FOR ", sentence)
