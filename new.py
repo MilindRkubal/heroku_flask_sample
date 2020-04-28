@@ -10,10 +10,10 @@ import pandas as pd
 from nltk.stem.porter import PorterStemmer
 import pickle
 from keras.models import load_model
-MAX_SEQUENCE_LENGTH = 50 # Maximum number of words in a sentence
-MAX_NB_WORDS = 20000 # Vocabulary size
-EMBEDDING_DIM = 100 # Dimensions of Glove word vectors 
-VALIDATION_SPLIT = 0.10
+# MAX_SEQUENCE_LENGTH = 50 # Maximum number of words in a sentence
+# MAX_NB_WORDS = 20000 # Vocabulary size
+# EMBEDDING_DIM = 100 # Dimensions of Glove word vectors 
+# VALIDATION_SPLIT = 0.10
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 print('before error')
@@ -143,20 +143,20 @@ def get_key(val):
             return key
   return "key doesn't exist"
 
-def intent(text):  
-  tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
-  tokenizer.fit_on_texts(texts)
-  sequences = tokenizer.texts_to_sequences(texts)
+# def intent(text):  
+#   tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
+#   tokenizer.fit_on_texts(texts)
+#   sequences = tokenizer.texts_to_sequences(texts)
 
-  word_index = tokenizer.word_index
-  print('Found %s unique tokens.' % len(word_index))
-  data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH)
-  prediction = model_for_intent.predict(data)
-  test_predictions = prediction.argmax(axis=-1)
-  answer = get_key(test_predictions)
-  res = {'answer':answer}
-  res = json.dumps(res)
-  return res
+#   word_index = tokenizer.word_index
+#   print('Found %s unique tokens.' % len(word_index))
+#   data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH)
+#   prediction = model_for_intent.predict(data)
+#   test_predictions = prediction.argmax(axis=-1)
+#   answer = get_key(test_predictions)
+#   res = {'answer':answer}
+#   res = json.dumps(res)
+#   return res
     
 
 
@@ -335,10 +335,10 @@ def sarcasm_analysis():
     answer = sarcasm(sentence)
     return answer
 
-@app.route('/intent_analysis/')
-def intent_analysis():
-    print("in sarcasm")
-    sentence = request.args.get('sentence')
-    print(sentence,"sentence given")
-    answer = intent(sentence)
-    return answer
+# @app.route('/intent_analysis/')
+# def intent_analysis():
+#     print("in sarcasm")
+#     sentence = request.args.get('sentence')
+#     print(sentence,"sentence given")
+#     answer = intent(sentence)
+#     return answer
