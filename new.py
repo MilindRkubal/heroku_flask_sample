@@ -248,6 +248,7 @@ def emotion(sentence):
 
         #Lemmatisation
         data['content'] = data['content'].apply(lambda x: " ".join([Word(word).lemmatize() for word in x.split()]))
+        print(data['content'],"Hello")
         #Correcting Letter Repetitions
 
         def de_repeat(text):
