@@ -5,6 +5,7 @@ from keyword_extraction import extract_phrases_keywords
 import csv
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+
 from sklearn import preprocessing
 from nltk.corpus import stopwords
 from textblob import Word
@@ -15,6 +16,8 @@ from sklearn.linear_model import SGDClassifier
 import pandas as pd
 from nltk.stem.porter import PorterStemmer
 import pickle
+nltk.download('stopwords')
+
 # from keras.models import load_model
 # MAX_SEQUENCE_LENGTH = 50 # Maximum number of words in a sentence
 # MAX_NB_WORDS = 20000 # Vocabulary size
