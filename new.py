@@ -7,6 +7,7 @@ import csv
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
+
 from sklearn import preprocessing
 from nltk.corpus import stopwords
 from textblob import Word
@@ -248,6 +249,7 @@ def emotion(sentence):
 
         #Lemmatisation
         data['content'] = data['content'].apply(lambda x: " ".join([Word(word).lemmatize() for word in x.split()]))
+        print(data['content'],"Hello")
         #Correcting Letter Repetitions
 
         def de_repeat(text):
@@ -286,7 +288,6 @@ def emotion(sentence):
         lsvm.fit(X_train_count, y_train)
 
         tweets = pd.DataFrame([sentence])
-        print(tweets)
 
         # Doing some preprocessing on these tweets as done before
         tweets[0] = tweets[0].str.replace('[^\w\s]',' ')
@@ -298,7 +299,6 @@ def emotion(sentence):
         tweet_count = count_vect.transform(tweets[0])
 
         tweet_pred = lsvm.predict(tweet_count)
-        print(tweet_pred,"prediction")
         if tweet_pred ==0:
             my_ans = "Happy Comment"
             
@@ -311,6 +311,39 @@ def emotion(sentence):
 
         final_emotion = json.dumps(temp)
         return final_emotion
+
+    
+    
+ 
+    
+    
+def key(sentence):
+
+    df_idf=pd.read_json("data/stackoverflow-data-idf.json",lines=True)
+    df_idf['text'] = df_idf['title'] + df_idf['body']
+    df_idf['text'] = df_idf['text'].apply(lambda x:pre_process(x))
+
+    stopwords=get_stop_words("resources/stopwords.txt")
+    docs=df_idf['text'].tolist()
+    cv=CountVectorizer(max_df=0.85,stop_words=stopwords)
+    word_count_vector=cv.fit_transform(docs)
+    cv=CountVectorizer(max_df=0.85,stop_words=stopwords,max_features=10000)
+    word_count_vector=cv.fit_transform(docs)
+    word_count_vector.shape
+
+    tfidf_transformer=TfidfTransformer(smooth_idf=True,use_idf=True)
+    tfidf_transformer.fit(word_count_vector)
+    feature_names=cv.get_feature_names()
+    tf_idf_vector=tfidf_transformer.transform(cv.transform([sentence]))
+    sorted_items=sort_coo(tf_idf_vector.tocoo())
+    keywords=extract_topn_from_vector(feature_names,sorted_items,10)
+    res = json.dumps(keywords)
+    return res
+    
+
+
+
+
 
 @app.route('/')
 def home():
@@ -454,3 +487,13 @@ def emotion_analysis():
 #     print(sentence,"sentence given")
 #     answer = intent(sentence)
 #     return answer
+
+
+
+@app.route('/keywords/')
+def keywords():
+    print("in emotion")
+    sentence = request.args.get('sentence')
+    print(sentence,"sentence given")
+    answer = key(sentence)
+    return answer
