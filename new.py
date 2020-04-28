@@ -139,10 +139,10 @@ def clicked(sentence):
 def get_key(val): 
   example_dict = {'AddToPlaylist': 0, 'BookRestaurant': 1, 'GetWeather': 2, 'RateBook': 3, 'SearchCreativeWork': 4, 'SearchScreeningEvent': 5}
   for key, value in example_dict.items():
+              
         if val == value:
-            return key 
-  
-    return "key doesn't exist"
+            return key
+  return "key doesn't exist"
 
 def intent(text):  
   tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
