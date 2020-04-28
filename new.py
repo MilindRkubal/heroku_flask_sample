@@ -286,7 +286,6 @@ def emotion(sentence):
 
         # Doing some preprocessing on these tweets as done before
         tweets[0] = tweets[0].str.replace('[^\w\s]',' ')
-        from nltk.corpus import stopwords
         stop = stopwords.words('english')
         tweets[0] = tweets[0].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
         from textblob import Word
