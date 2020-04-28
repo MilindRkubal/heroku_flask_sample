@@ -9,13 +9,13 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 from nltk.stem.porter import PorterStemmer
 import pickle
-from keras.models import load_model
+# from keras.models import load_model
 # MAX_SEQUENCE_LENGTH = 50 # Maximum number of words in a sentence
 # MAX_NB_WORDS = 20000 # Vocabulary size
 # EMBEDDING_DIM = 100 # Dimensions of Glove word vectors 
-# VALIDATION_SPLIT = 0.10
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
+# # VALIDATION_SPLIT = 0.10
+# from keras.preprocessing.text import Tokenizer
+# from keras.preprocessing.sequence import pad_sequences
 print('before error')
 
 print('after error')
