@@ -123,83 +123,36 @@ def get_key(val):
 
 
 def sarcasm(sentence):
-    print("sentence is",sentence)
-    data = pd.read_json(r'Sarcasm_Headlines_Dataset.json', lines = True)
+    
+    sample = pd.DataFrame([sentence])
 
-    data['headline'] = data['headline'].apply(lambda s : re.sub('[^a-zA-Z]', ' ', s))
-
-    labels = data['is_sarcastic']
+    sample[0] = sample[0].apply(lambda s : re.sub('[^a-zA-Z]', ' ', s))
 
     ps = PorterStemmer()
-    data['headline'] = data['headline'].apply(lambda x: x.split())
-    data['headline'] = data['headline'].apply(lambda x : ' '.join([ps.stem(word) for word in x]))
+    sample[0] = sample[0].apply(lambda x: x.split())
+    sample[0] = sample[0].apply(lambda x : ' '.join([ps.stem(word) for word in x]))
 
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    tv = TfidfVectorizer(max_df=0.90, min_df=2, max_features=1000, stop_words='english')
-    features = tv.fit_transform(data['headline'])
+    pickle_in = open("tfidf_sarcasm.pkl", "rb")
+    tfidf_vect = pickle.load(pickle_in)
+    X_test = tfidf_vect.transform(sample[0])
 
-    import csv
-    with open(r'astral_submission1.csv', 'w', newline='') as f:
-        thewriter = csv.writer(f)
-        thewriter.writerow(['id', 'headline'])
-        thewriter.writerow([1, "top snake handler leaves sinking huckabee campaign"])
+    loaded_model = pickle.load(open('sarcasm_model.pkl', 'rb'))
 
-    sample = pd.read_csv(r"astral_submission1.csv", index_col=0)
-    sample['headline'] = sample['headline'].apply(lambda s : re.sub('[^a-zA-Z]', ' ', s))
-
-
-    ps = PorterStemmer()
-    sample['headline'] = sample['headline'].apply(lambda x: x.split())
-    sample['headline'] = sample['headline'].apply(lambda x : ' '.join([ps.stem(word) for word in x]))
-
-    X_test = tv.transform(sample['headline'])
-    SVCmodel = pickle.load(open('SVC.sav', 'rb'))
-
-    model_predictions = SVCmodel.predict(X_test)
+    model_predictions = loaded_model.predict(X_test)
     if model_predictions == 0:
-        my_ans = "Not sarcastic"
+        
+        my_ans =  "Not sarcastic"
 
     else:
-        my_ans = "Sarcastic"
     
-    temp = {'sarcasm':my_ans}
-
-   
-
-    final_sarcasm = json.dumps(temp)
-    return final_sarcasm
-
-def emotion(sentence):
-        tweets = pd.DataFrame([sentence])
-
-        # Doing some preprocessing on these tweets as done before
-        tweets[0] = tweets[0].str.replace('[^\w\s]',' ')
-        from nltk.corpus import stopwords
-        stop = stopwords.words('english')
-        tweets[0] = tweets[0].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
-        from textblob import Word
-        tweets[0] = tweets[0].apply(lambda x: " ".join([Word(word).lemmatize() for word in x.split()]))
-        import pickle
-
-        pickle_in = open("count_vec.pkl","rb")
-        count_vect = pickle.load(pickle_in)
-        tweet_count = count_vect.transform(tweets[0])
-        
-        # load the model from disk
-        loaded_model = pickle.load(open('lsvm_model.pkl', 'rb'))
-        result = loaded_model.predict(tweet_count)
-        if result  == 0:
-            my_ans = "Happy Comment"
+        my_ans =  "Sarcastic"
             
-        else:
-            my_ans = "Sad Comment"
-            
-        temp = {'emotion':my_ans}
+    temp = {'emotion':my_ans}
 
-   
 
-        final_emotion = json.dumps(temp)
-        return final_emotion
+
+    final_emotion = json.dumps(temp)
+    return final_emotion
 
     
     
