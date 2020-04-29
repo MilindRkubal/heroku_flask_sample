@@ -274,6 +274,10 @@ def key(sentence):
 def home():
     return "Home Page Working"
 
+@app.route('/a')
+def home1():
+    render_template("index.html")
+
 def qna(sentence,question):
     result = predictor.predict(
         passage=sentence,
