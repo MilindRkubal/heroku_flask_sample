@@ -211,8 +211,28 @@ def face(sentence):
     img_tensor /= 255.                                      # imshow expects values in the range [0, 1]
     
     pred = model.predict_classes(img_tensor)
-    print(pred,"prediction")
-    return pred
+    if pred == 0:
+        my_ans = "Anger"
+        
+    elif pred == 1:
+        my_ans = "Disgust"
+    elif pred == 2:
+        my_ans = "Fear"
+    elif pred == 3:
+        my_ans = "Happy"
+    elif pred == 4:
+        my_ans = "Sad"
+    elif pred == 5:
+        my_ans = "surprise"
+    else:
+        my_ans = "Neutral"
+        
+    temp = {'face':my_ans}
+
+
+
+    final_face = json.dumps(temp)
+    return final_face
 
     
     
