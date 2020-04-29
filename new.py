@@ -9,6 +9,8 @@ from keyword_extraction import extract_phrases_keywords
 import csv
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from keras.metrics import categorical_accuracy
+
 
 
 from sklearn import preprocessing
