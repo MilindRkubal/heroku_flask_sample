@@ -18,3 +18,4 @@ Werkzeug==0.15.3
 sklearn
 keras
 tensorflow==1.14.0
+Pillow
