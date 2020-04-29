@@ -191,7 +191,7 @@ def sarcasm(sentence):
     final_emotion = json.dumps(temp)
     return final_emotion
 
-def face_emotion(sentence):
+def face(sentence):
     
     #load json and create model
     json_file = open('/content/drive/My Drive/Colab Notebooks/model_4layer_2_2_pool.json', 'r')
@@ -387,7 +387,7 @@ def face_emotion():
     print("in face")
     sentence = request.args.get('sentence')
     print(sentence,"sentence given")
-    answer = face_emotion(sentence)
+    answer = face(sentence)
     return answer
 
 # @app.route('/intent_analysis/')
