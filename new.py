@@ -2,6 +2,9 @@ from flask import Flask
 from flask import request
 from textblob import TextBlob
 from textblob import Word
+import numpy as np
+from keras.models import model_from_json
+
 from keyword_extraction import extract_phrases_keywords
 import csv
 from sklearn.linear_model import LogisticRegression
@@ -188,6 +191,29 @@ def sarcasm(sentence):
     final_emotion = json.dumps(temp)
     return final_emotion
 
+def face_emotion(sentence):
+    
+    #load json and create model
+    json_file = open('/content/drive/My Drive/Colab Notebooks/model_4layer_2_2_pool.json', 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    model = model_from_json(loaded_model_json)
+    #load weights from h5 file
+    model.load_weights("/content/drive/My Drive/Colab Notebooks/model_4layer_2_2_pool.h5")
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=[categorical_accuracy])
+    
+    img = image.load_img(sentence, target_size=(48, 48), grayscale=True)
+    img_tensor = image.img_to_array(img)                    # (height, width, channels)
+    img_tensor = np.expand_dims(img_tensor, axis=0)         # (1, height, width, channels), add a dimension because the model expects this shape: (batch_size, height, width, channels)
+    img_tensor /= 255.                                      # imshow expects values in the range [0, 1]
+    
+    pred = model.predict_classes(img_tensor)
+    print(pred,"prediction")
+    return pred
+
+    
+    
+
     
     
  
@@ -354,6 +380,14 @@ def emotion_analysis():
     sentence = request.args.get('sentence')
     print(sentence,"sentence given")
     answer = emotion(sentence)
+    return answer
+
+@app.route('/face_emotion/')
+def face_emotion():
+    print("in face")
+    sentence = request.args.get('sentence')
+    print(sentence,"sentence given")
+    answer = face_emotion(sentence)
     return answer
 
 # @app.route('/intent_analysis/')
