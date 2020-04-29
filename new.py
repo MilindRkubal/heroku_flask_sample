@@ -276,7 +276,7 @@ def home():
 
 @app.route('/a')
 def home1():
-    render_template("index.html")
+    return render_template("index.html")
 
 def qna(sentence,question):
     result = predictor.predict(
