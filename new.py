@@ -160,6 +160,19 @@ def get_key(val):
 #   return res
     
 
+import numpy as np
+import urllib
+import cv2
+# METHOD #1: OpenCV, NumPy, and urllib
+def url_to_image(url):
+	# download the image, convert it to a NumPy array, and then read
+	# it into OpenCV format
+	resp = urllib.request.urlopen(url)
+	image = np.asarray(bytearray(resp.read()), dtype="uint8")
+	image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+	# return the image
+	return image
+
 
 
 def sarcasm(sentence):
@@ -196,6 +209,12 @@ def sarcasm(sentence):
 
 def face(sentence):
     
+    
+    image = url_to_image(url)
+	cv2.imwrite("face.jpg", image)
+    
+    sentence = "face.jpg"
+    
     #load json and create model
     json_file = open('model_4layer_2_2_pool.json', 'r')
     loaded_model_json = json_file.read()
@@ -225,12 +244,9 @@ def face(sentence):
     elif pred == 5:
         my_ans = "surprise"
     else:
-        my_ans = "Neutral"
-        
+        my_ans = "Neutral"     
     temp = {'face':my_ans}
-
-
-
+    
     final_face = json.dumps(temp)
     return final_face
 
